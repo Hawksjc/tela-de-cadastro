@@ -19,6 +19,19 @@
           <h1 class="col-8">Listagem de Produtos</h1>
       </nav>
       <div class="row">
+        
+        <% if (locals.messages.success) { %>
+          <div class="alert alert-success" role="alert">
+            <%= locals.messages.success %>
+          </div>
+        <% } %>
+
+        <% if (locals.messages.error) { %>
+          <div class="alert alert-danger" role="alert">
+            <%= locals.messages.error %>
+          </div>
+        <% } %>
+
         <table class="table table-striped">
           <thead>
             <tr>

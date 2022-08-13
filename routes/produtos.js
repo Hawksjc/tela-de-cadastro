@@ -13,10 +13,16 @@ router.get('/', function (request, response){
 
 router.post('/delete', function (request, response){
     dao.remove(request.body.id)
-    .then( ([rows]) => {
+    .then( ( [result] ) => {
+        console.log(result)
+        if (result.affectedRows > 0)
+            request.flash('success', 'Produto excluido com sucesso.')
+        else
+            request.flash('success', `Não foi encontrado no banco aluno com id = ${request.body.id}`)
         response.redirect('/produtos')
     }).catch(err => {
         console.log(err)
+        request.flash('error', 'Ocorreu um erro na exclusão do produto.')
         response.redirect('/produtos')
     })
 });
