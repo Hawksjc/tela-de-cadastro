@@ -31,4 +31,16 @@ router.get('/form', function (request, response){
     response.render('produtos/form')
 });
 
+router.post('/save', function(request, response) {
+    dao.save(request.body)
+    .then(([result]) => {
+        request.flash('success', `Produto cadastrado com sucesso`)
+        response.redirect('/produtos')
+    }).catch(err => {
+        console.log(err)
+        request.flash('error', `Não foi possível cadastrar o produto`)
+        response.redirect('/produtos')
+    })
+})
+
 module.exports = router;
