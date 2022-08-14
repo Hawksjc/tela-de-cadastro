@@ -1,4 +1,6 @@
 var express = require('express');
+const app = require('../app');
+const { render } = require('../app')
 var router = express.Router();
 var dao = require('../database/dao')
 
@@ -27,14 +29,40 @@ router.post('/delete', function (request, response){
     })
 });
 
-router.get('/form', function (request, response){
-    response.render('produtos/form')
+router.get('/form', async function (request, response){
+
+    let row = {
+        id: '',
+        nome: '',
+        categoria: '',
+        preco_venda: '',
+        preco_compra: '',
+        dtValidade: ''
+    }
+    if( request.query.id ){
+        [result] = await dao.findById(request.query.id)
+        console.log(result)
+        row = result[0]
+        console.log(row)
+    }
+
+    response.render('produtos/form', { produto: row})
 });
 
 router.post('/save', function(request, response) {
-    dao.save(request.body)
-    .then(([result]) => {
-        request.flash('success', `Produto cadastrado com sucesso`)
+
+    
+    if(request.body.id){
+        operacao = dao.update
+        success = `Dados do produto atualizado com sucesso`
+    }else{
+        operacao = dao.save
+        success = `Produto cadastrado com sucesso`
+    }
+
+    operacao(request.body)
+    .then( ([result]) => {
+        request.flash('success', success)
         response.redirect('/produtos')
     }).catch(err => {
         console.log(err)
@@ -42,5 +70,23 @@ router.post('/save', function(request, response) {
         response.redirect('/produtos')
     })
 })
+
+router.get('/search', function(request, response) {
+
+    if(request.query.nome){
+        dao.search(request.query.nome)
+        .then( ([rows]) => {
+            response.render('produtos/list', { produtos: rows })
+        }).catch( err => {
+            console.log(err)
+            request.flash('error', 'Não foi possivel efetuar a buscar por nome')
+            response.redirect('/produtos')
+        })
+    }else{
+        response.redirect('/produtos')
+    }
+
+})
+
 
 module.exports = router;

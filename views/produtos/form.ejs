@@ -23,34 +23,35 @@
       </nav>
 
         <form method="post" action="/produtos/save">
+          <input type="hidden" name="id" value="<%= produto.id %>">
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nome</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="nome" value="">
+              <input type="text" class="form-control" name="nome" value="<%= produto.nome %>">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Categoria</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="categoria" value="">
+              <input type="text" class="form-control" name="categoria" value="<%= produto.categoria %>">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Preço de compra</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" name="preco_compra" value="">
+              <input type="number" class="form-control" name="preco_compra" value="<%= produto.preco_compra %>">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Preço de venda</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" name="preco_venda" value="">
+              <input type="number" class="form-control" name="preco_venda" value="<%= produto.preco_venda %>">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Validade</label>
             <div class="col-sm-10">
-              <input type="date" class="form-control" name="dtValidade" value="">
+              <input type="date" class="form-control" name="dtValidade" value="<%= produto.dtValidade %>">
             </div>
           </div>
 
